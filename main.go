@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -23,7 +24,10 @@ func main() {
 
 	// so we can create infinite loop then check link will run until we stopped
 	for link := range c {
-		go checkLink(link, c)
+		go func() {
+			time.Sleep(time.Second * 2)
+			checkLink(link, c)
+		}()
 	}
 }
 
