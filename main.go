@@ -21,7 +21,9 @@ func main() {
 		go checkLink(url, c)
 	}
 
-	fmt.Println(<-c)
+	for {
+		fmt.Println(<-c)
+	}
 }
 
 func checkLink(url string, c chan string) {
