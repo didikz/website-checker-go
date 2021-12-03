@@ -15,16 +15,24 @@ func main() {
 		"https://laravel.com/",
 	}
 
+	c := make(chan string)
+
 	for _, url := range urls {
-		go checkLink(url)
+		go checkLink(url, c)
 	}
+
+	fmt.Println(<-c)
 }
 
-func checkLink(url string) {
+func checkLink(url string, c chan string) {
 	_, err := http.Get(url)
 	if err != nil {
-		fmt.Println(url, "is down")
+		down := url + " is down"
+		fmt.Println(down)
+		c <- down + " (channel)"
 		return
 	}
-	fmt.Println(url, "is up")
+	up := url + " is up"
+	fmt.Println(up)
+	c <- up + " (channel)"
 }
