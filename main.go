@@ -21,8 +21,9 @@ func main() {
 		go checkLink(url, c)
 	}
 
-	for {
-		fmt.Println(<-c)
+	// so we can create infinite loop then check link will run until we stopped
+	for link := range c {
+		go checkLink(link, c)
 	}
 }
 
@@ -31,10 +32,10 @@ func checkLink(url string, c chan string) {
 	if err != nil {
 		down := url + " is down"
 		fmt.Println(down)
-		c <- down + " (channel)"
+		c <- url
 		return
 	}
 	up := url + " is up"
 	fmt.Println(up)
-	c <- up + " (channel)"
+	c <- url
 }
