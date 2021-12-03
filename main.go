@@ -16,7 +16,7 @@ func main() {
 	}
 
 	for _, url := range urls {
-		checkLink(url)
+		go checkLink(url)
 	}
 }
 
